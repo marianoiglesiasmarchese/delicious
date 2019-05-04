@@ -9,6 +9,8 @@ public interface RecipeRepository extends Repository<Recipe, Long> {
 
     Long count();
 
+    Recipe save(Recipe recipe);
+
     Page<Recipe> findAll(Pageable pageable);
 
 }

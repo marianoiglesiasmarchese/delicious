@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -18,15 +19,40 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService;
 
-    @GetMapping("/random/recipe")
+    @RequestMapping(value = "/recipe/random", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity getRandomRecipe() {
+    public ResponseEntity randomRecipe() {
 
         Map<String,Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
         try{
             Recipe recipe = recipeService.getRandomRecipe();
+            response.put("recipe", recipe);
+        }
+        catch(Exception e){
+            response.put("error", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity(response, status);
+    }
+
+    @RequestMapping(value = "/recipe/new", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity createRecipe(
+            @RequestParam(name="name", required=true, defaultValue="Stranger") String name,
+            @RequestParam(name="description", required=true, defaultValue="Stranger description") String description,
+            @RequestParam(name="image", required=true, defaultValue="[sadsdadsads]") byte[] image,
+            @RequestParam(name="link", required=false, defaultValue="http://www.faqs.org/rfcs/rfc3987.html") URL link
+//            @RequestParam(name="links", required=false, defaultValue="http://www.faqs.org/rfcs/rfc3987.html,http://www.faqs.org/rfcs/rfc3987.html") List<String> links
+    ) {
+
+        Map<String,Object> response = new HashMap<>();
+        HttpStatus status = HttpStatus.OK;
+
+        try{
+            Recipe recipe = recipeService.creteRecipe(name, description, image, link);
             response.put("recipe", recipe);
         }
         catch(Exception e){
