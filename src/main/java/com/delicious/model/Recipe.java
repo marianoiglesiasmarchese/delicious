@@ -1,18 +1,14 @@
 package com.delicious.model;
 
-
-import javassist.bytecode.ByteArray;
-import org.hibernate.validator.constraints.URL;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.net.URL;
 
 @Entity
 public class Recipe {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @NotNull
@@ -21,11 +17,19 @@ public class Recipe {
     @NotNull
     private String description;
 
+    @Lob
     @NotNull
-    private ByteArray image;
+    private byte[] image;
 
-    @URL
-    private List<String> links;
+//    @ElementCollection
+    private URL link;
+
+    public Recipe(String name, String description, byte[] image, URL link) {
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.link = link;
+    }
 
     public Long getId() {
         return id;
@@ -51,19 +55,19 @@ public class Recipe {
         this.description = description;
     }
 
-    public ByteArray getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(ByteArray image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
-    public List<String> getLinks() {
-        return links;
+    public URL getLink() {
+        return link;
     }
 
-    public void setLinks(List<String> links) {
-        this.links = links;
+    public void setLink(URL link) {
+        this.link = link;
     }
 }
