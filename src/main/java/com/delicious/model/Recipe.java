@@ -12,6 +12,7 @@ public class Recipe {
     private Long id;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
     @NotNull
@@ -23,6 +24,8 @@ public class Recipe {
 
 //    @ElementCollection
     private URL link;
+
+    public Recipe(){}
 
     public Recipe(String name, String description, byte[] image, URL link) {
         this.name = name;

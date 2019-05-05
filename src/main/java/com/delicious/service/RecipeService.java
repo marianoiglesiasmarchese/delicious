@@ -20,7 +20,7 @@ public class RecipeService {
     public Recipe getRandomRecipe() {
         Long numberOfRecipes = recipeRepository.count();
         Random random = new Random();
-        Long aleatoryRecipePageId = random.longs(numberOfRecipes).findFirst().getAsLong();
+        Long aleatoryRecipePageId = random.longs(0, numberOfRecipes).findFirst().getAsLong();
         Page<Recipe> recipePage = recipeRepository.findAll(PageRequest.of(aleatoryRecipePageId.intValue(), 1));
         return recipePage.hasContent() ? recipePage.getContent().get(0) : null;
     }
