@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Example</title>
+</head>
+<body>
+<h1>create new recipe!</h1>
+
+<form method="get" th:action="@{/recipe/new}">
+    <div><label> name : <input name="name" type="text" value="name 1"/> </label></div>
+    <div><label> Description: <input name="description" type="text" value="description 1"/> </label></div>
+    <div><label> image: <input name="image" type="text" value="[sadsdadsads]"/> </label></div>
+    <div><label> link: <input name="link" type="text" value="http://www.faqs.org/rfcs/rfc3987.html"/> </label></div>
+    <div><input type="submit" value="create"/></div>
+</form>
+
+</body>
+</html>

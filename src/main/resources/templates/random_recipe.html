@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Example</title>
+</head>
+<body>
+<h1>Hey!</h1>
+
+<h1 th:inline="text">Name: [[${#httpServletRequest.recipe.name}]]!</h1>
+<h2 th:inline="text">Description: [[${#httpServletRequest.recipe.description}]]!</h2>
+<h3 th:inline="text">Link: [[${#httpServletRequest.recipe.link}]]!</h3>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+</body>
+</html>

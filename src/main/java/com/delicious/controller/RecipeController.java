@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -41,11 +43,10 @@ public class RecipeController {
     @RequestMapping(value = "/recipe/new", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity createRecipe(
-            @RequestParam(name="name", required=true, defaultValue="Stranger") String name,
-            @RequestParam(name="description", required=true, defaultValue="Stranger description") String description,
-            @RequestParam(name="image", required=true, defaultValue="[sadsdadsads]") byte[] image,
-            @RequestParam(name="link", required=false, defaultValue="http://www.faqs.org/rfcs/rfc3987.html") URL link
-//            @RequestParam(name="links", required=false, defaultValue="http://www.faqs.org/rfcs/rfc3987.html,http://www.faqs.org/rfcs/rfc3987.html") List<String> links
+            @RequestParam(name="name", required=true) String name,
+            @RequestParam(name="description", required=true) String description,
+            @RequestParam(name="image", required=true) byte[] image,
+            @RequestParam(name="link", required=false) URL link
     ) {
 
         Map<String,Object> response = new HashMap<>();
