@@ -25,6 +25,10 @@ public class Recipe {
 //    @ElementCollection
     private URL link;
 
+    private Long numberOfVotes;
+
+    private Long startsSum;
+
     public Recipe(){}
 
     public Recipe(String name, String description, byte[] image, URL link) {
@@ -32,6 +36,18 @@ public class Recipe {
         this.description = description;
         this.image = image;
         this.link = link;
+        this.setNumberOfVotes(0L);
+        this.setStartsSum(0L);
+    }
+
+    public Double getAvgStarts(){
+        return this.startsSum.doubleValue() / this.numberOfVotes;
+    }
+
+    public Double addStarts(Long numberOfStarts){
+        this.numberOfVotes++;
+        this.startsSum+=numberOfStarts;
+        return this.startsSum.doubleValue() / this.numberOfVotes;
     }
 
     public Long getId() {
@@ -72,5 +88,21 @@ public class Recipe {
 
     public void setLink(URL link) {
         this.link = link;
+    }
+
+    public Long getNumberOfVotes() {
+        return numberOfVotes;
+    }
+
+    public void setNumberOfVotes(Long numberOfVotes) {
+        this.numberOfVotes = numberOfVotes;
+    }
+
+    public Long getStartsSum() {
+        return startsSum;
+    }
+
+    public void setStartsSum(Long startsSum) {
+        this.startsSum = startsSum;
     }
 }
