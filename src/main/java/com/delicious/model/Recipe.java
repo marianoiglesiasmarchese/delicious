@@ -27,11 +27,11 @@ public class Recipe {
 
     @NotNull
     @Column(name = "numberofvotes")
-    private Long numberOfVotes;
+    private Long numberOfVotes = 0L;
 
     @NotNull
     @Column(name = "startssum")
-    private Long startsSum;
+    private Long startsSum = 0L;
 
     public Recipe(){}
 
@@ -40,8 +40,6 @@ public class Recipe {
         this.description = description;
         this.image = image;
         this.link = link;
-        this.setNumberOfVotes(0L);
-        this.setStartsSum(0L);
     }
 
     public double getAvgStarts(){

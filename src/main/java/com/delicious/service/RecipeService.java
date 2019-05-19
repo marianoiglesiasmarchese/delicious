@@ -20,6 +20,25 @@ public class RecipeService {
     @Autowired
     RecipeRepository recipeRepository;
 
+    public Recipe creteRecipe(Recipe recipe) {
+        return recipeRepository.save(recipe);
+    }
+
+    public Recipe updateRecipe(Long id, Recipe recipeChanges) {
+        Recipe recipe = recipeRepository.getById(id);
+
+        if(recipeChanges.getName()!= null)
+            recipe.setName(recipeChanges.getName());
+        if(recipeChanges.getDescription() != null)
+            recipe.setDescription(recipeChanges.getDescription());
+        if(recipeChanges.getImage() != null)
+            recipe.setImage(recipeChanges.getImage());
+        if(recipeChanges.getLink() != null)
+            recipe.setLink(recipeChanges.getLink());
+
+        return recipeRepository.save(recipe);
+    }
+
     public Recipe getRandomRecipe() {
         Long numberOfRecipes = recipeRepository.count();
         Random random = new Random();
@@ -35,10 +54,5 @@ public class RecipeService {
         Long aleatoryRecipePageId = random.longs(0, numberOfPages).findFirst().getAsLong();
         Page<Recipe> recipePage = recipeRepository.findAll(PageRequest.of(aleatoryRecipePageId.intValue(), size));
         return recipePage.hasContent() ? recipePage.getContent() : null;
-    }
-
-    public Recipe creteRecipe(String name, String description, byte[] image, URL link) {
-        Recipe recipe = new Recipe(name, description, image, link);
-        return recipeRepository.save(recipe);
     }
 }

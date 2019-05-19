@@ -13,4 +13,5 @@ public interface RecipeRepository extends Repository<Recipe, Long> {
 
     Page<Recipe> findAll(Pageable pageable);
 
+    Recipe getById(Long id);
 }
