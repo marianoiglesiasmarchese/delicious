@@ -1,62 +1,135 @@
 package com.delicious.controller;
 
+import com.delicious.component.CommonComponent;
+import com.delicious.model.Recipe;
+import com.delicious.model.RichUser;
+import com.delicious.service.RecipeService;
 import com.delicious.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @RestController
-public class UserController {
+public class UserController extends CommonComponent {
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @Autowired
+    private RecipeService recipeService;
+
+    @GetMapping(value = "/user/recipes")
     @ResponseBody
-    public Principal getUser(Principal principal) {
-        return principal;
+    public ResponseEntity recipes() {
+
+        Map<String,Object> response = new HashMap<>();
+        HttpStatus status = HttpStatus.OK;
+
+        try{
+            List<Recipe> recipes = getCurrentUser().getRecipes();
+            response.put("recipes",recipes);
+        }
+        catch(Exception e){
+            response.put("error", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity(response, status);
+
     }
 
-    // TODO retorna todas las recetas de una persona
-    @RequestMapping("/user/recipes")
+    @PutMapping(value = "/user/recipes/add/{id}")
     @ResponseBody
-    public Object getRecipes() {
-        return this;
+    public ResponseEntity addRecipe(
+            @PathVariable Long id
+    ) {
+
+        Map<String,Object> response = new HashMap<>();
+        HttpStatus status = HttpStatus.OK;
+
+        try{
+            Recipe recipe = recipeService.getRecipe(id);
+            userService.addRecipe(recipe, getCurrentUser());
+        }
+        catch(Exception e){
+            response.put("error", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity(response, status);
+
     }
 
-    // TODO agrega una receta a la lista de recetas del usuario
-    @RequestMapping("/user/recipe")
+    @PutMapping(value = "/user/recipes/remove/{id}")
     @ResponseBody
-    public Object addRecipe(String recipe) {
-        return this;
+    public ResponseEntity removeRecipe(
+            @PathVariable Long id
+    ) {
+
+        Map<String,Object> response = new HashMap<>();
+        HttpStatus status = HttpStatus.OK;
+
+        try{
+            Recipe recipe = recipeService.getRecipe(id);
+            userService.removeRecipe(recipe, getCurrentUser());
+        }
+        catch(Exception e){
+            response.put("error", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity(response, status);
+
     }
 
-    // TODO quita una receta a la lista de recetas del usuario
-    @RequestMapping("/user/recipe/remove")
+    @GetMapping(value = "/user/profile")
     @ResponseBody
-    public Object removeRecipe(String recipe) {
-        return this;
+    public ResponseEntity profile() {
+
+        Map<String,Object> response = new HashMap<>();
+        HttpStatus status = HttpStatus.OK;
+
+        try{
+            RichUser richUser = getCurrentUser();
+            response.put("user", richUser);
+        }
+        catch(Exception e){
+            response.put("error", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity(response, status);
+
     }
 
-    // TODO obtiene el perfil
-    @RequestMapping(value = "/user/profile", method = RequestMethod.GET)
+    @PostMapping(value = "/user/profile/update")
     @ResponseBody
-    public Object getProfile(String nombre) {
-        return this;
-    }
+    public ResponseEntity editProfile(
+            @RequestBody RichUser userChanges
+    ) {
 
-    // TODO actualiza el perfil
-    @RequestMapping(value = "/user/profile", method = RequestMethod.PUT)
-    @ResponseBody
-    public Object editProfile(String nombre) {
-        return this;
+        Map<String,Object> response = new HashMap<>();
+        HttpStatus status = HttpStatus.OK;
+
+        try{
+            RichUser richUser = updateUser(userChanges);
+            response.put("user", richUser);
+        }
+        catch(Exception e){
+            response.put("error", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity(response, status);
+
     }
 
 

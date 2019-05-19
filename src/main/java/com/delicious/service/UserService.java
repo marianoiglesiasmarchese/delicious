@@ -1,14 +1,11 @@
 package com.delicious.service;
 
 import com.delicious.jpa.UserRepository;
+import com.delicious.model.Recipe;
 import com.delicious.model.RichUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.net.URL;
-import java.util.Collection;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -19,17 +16,19 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public RichUser createUser(String name, String lastname, URL image, String email, Collection<? extends GrantedAuthority> authorities){
-        RichUser response;
-        RichUser user = new RichUser(name, lastname, image, email, authorities);
-        response = this.userRepository.save(user);
-        LOGGER.info("New user: " + user.toString());
-        return response;
+    public RichUser addRecipe(Recipe recipe, RichUser user) {
+        Boolean isPresent = user.getRecipes().contains(recipe);
+        if(!isPresent){
+            user.addRecipe(recipe);
+        }
+        return userRepository.save(user);
     }
 
-    public Boolean contains(String email) {
-        Optional<RichUser> user = this.userRepository.findByEmail(email);
-        return user.isPresent();
+    public RichUser removeRecipe(Recipe recipe, RichUser user) {
+        Boolean isPresent = user.getRecipes().contains(recipe);
+        if(isPresent){
+            user.removeRecipe(recipe);
+        }
+        return userRepository.save(user);
     }
-
 }
