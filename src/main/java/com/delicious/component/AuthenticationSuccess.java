@@ -33,10 +33,11 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler {
 
         this.checkIfAlreadyExist(authentication);
 
+        // TODO here we should redirect to specific view for each user
         if (roles.contains("ROLE_ADMIN")) {
             response.sendRedirect("/new");
         } else{
-            response.sendRedirect("/home");
+            response.sendRedirect("/user");
         }
 
     }
