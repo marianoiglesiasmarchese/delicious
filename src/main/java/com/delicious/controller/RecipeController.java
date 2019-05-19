@@ -61,7 +61,7 @@ public class RecipeController {
         return new ResponseEntity(response, status);
     }
 
-    @RequestMapping(value = "/recipe/random", method = RequestMethod.GET)
+    @GetMapping(value = "/recipe/random")
     @ResponseBody
     public ResponseEntity randomRecipe() {
 
@@ -80,7 +80,7 @@ public class RecipeController {
         return new ResponseEntity(response, status);
     }
 
-    @RequestMapping(value = "/recipe/random/set", method = RequestMethod.GET)
+    @GetMapping(value = "/recipe/random/set")
     @ResponseBody
     public ResponseEntity setOfRandomRecipes(
             @RequestParam(name="size", required=true) Integer size
@@ -99,13 +99,6 @@ public class RecipeController {
         }
 
         return new ResponseEntity(response, status);
-    }
-
-    // TODO puntua una receta y almacena quien la puntuó.
-    @RequestMapping(value = "/recipe/score", method = RequestMethod.PUT)
-    @ResponseBody
-    public Object editRecipe(Long starts, String recipe) {
-        return this;
     }
 
 }
