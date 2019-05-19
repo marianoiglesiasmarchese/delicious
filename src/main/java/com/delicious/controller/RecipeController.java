@@ -1,5 +1,6 @@
 package com.delicious.controller;
 
+import com.delicious.component.CommonComponent;
 import com.delicious.model.Recipe;
 import com.delicious.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 @RestController
-public class RecipeController {
+public class RecipeController extends CommonComponent {
 
     private static final Logger LOGGER = Logger.getLogger(RecipeController.class.getName());
 

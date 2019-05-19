@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
 
+import java.util.Optional;
+
 public interface RecipeRepository extends Repository<Recipe, Long> {
 
     Long count();
@@ -13,5 +15,5 @@ public interface RecipeRepository extends Repository<Recipe, Long> {
 
     Page<Recipe> findAll(Pageable pageable);
 
-    Recipe getById(Long id);
+    Optional<Recipe> getById(Long id);
 }
