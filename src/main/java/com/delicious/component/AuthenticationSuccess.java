@@ -1,5 +1,6 @@
 package com.delicious.component;
 
+import com.delicious.service.AuthenticationService;
 import com.delicious.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,7 +25,7 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler {
     private static final Logger LOGGER = Logger.getLogger(AuthenticationSuccess.class.getName());
 
     @Autowired
-    private UserService userService;
+    private AuthenticationService authenticationService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -37,7 +38,7 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler {
         if (roles.contains("ROLE_ADMIN")) {
             response.sendRedirect("/new");
         } else{
-            response.sendRedirect("/user");
+            response.sendRedirect("/user/profile");
         }
 
     }
@@ -52,13 +53,11 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler {
         Object email = attributes.get("email");
         Object email_verified = attributes.get("email_verified");
 
-        System.out.println(principal);
-
-        Boolean alreadyRegistered = this.userService.contains((String) email);
+        Boolean alreadyRegistered = authenticationService.contains((String) email);
         if(!alreadyRegistered){
             String lastname = "";
             URL pictureURL = new URL((String) picture);
-            this.userService.createUser((String) name, lastname, pictureURL, (String) email, authentication.getAuthorities());
+            authenticationService.createUser((String) name, lastname, pictureURL, (String) email, authentication.getAuthorities());
         }
     }
 
