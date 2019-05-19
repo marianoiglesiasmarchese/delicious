@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -34,6 +35,27 @@ public class RecipeController {
         try{
             Recipe recipe = recipeService.getRandomRecipe();
             response.put("recipe", recipe);
+        }
+        catch(Exception e){
+            response.put("error", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity(response, status);
+    }
+
+    @RequestMapping(value = "/recipe/random/set", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity setOfRandomRecipes(
+            @RequestParam(name="size", required=true) Integer size
+    ) {
+
+        Map<String,Object> response = new HashMap<>();
+        HttpStatus status = HttpStatus.OK;
+
+        try{
+            List<Recipe> recipes = recipeService.getSetOfRandomRecipes(size);
+            response.put("recipes", recipes);
         }
         catch(Exception e){
             response.put("error", e.getMessage());
@@ -67,17 +89,10 @@ public class RecipeController {
         return new ResponseEntity(response, status);
     }
 
-    // TODO update receta
+    // TODO puntua una receta y almacena quien la puntuó.
     @RequestMapping(value = "/recipe/score", method = RequestMethod.PUT)
     @ResponseBody
     public Object editRecipe(Long starts, String recipe) {
-        return this;
-    }
-
-    // TODO puntua una receta y almacena quien la puntuó.
-    @RequestMapping("/recipe/score")
-    @ResponseBody
-    public Object user(Long starts, String recipe) {
         return this;
     }
 
