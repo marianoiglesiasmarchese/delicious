@@ -67,4 +67,18 @@ public class RecipeController {
         return new ResponseEntity(response, status);
     }
 
+    // TODO update receta
+    @RequestMapping(value = "/recipe/score", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object editRecipe(Long starts, String recipe) {
+        return this;
+    }
+
+    // TODO puntua una receta y almacena quien la puntuó.
+    @RequestMapping("/recipe/score")
+    @ResponseBody
+    public Object user(Long starts, String recipe) {
+        return this;
+    }
+
 }
