@@ -8,7 +8,7 @@ import java.net.URL;
 public class Recipe {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
@@ -40,8 +40,12 @@ public class Recipe {
         this.setStartsSum(0L);
     }
 
-    public Double getAvgStarts(){
-        return this.startsSum.doubleValue() / this.numberOfVotes;
+    public double getAvgStarts(){
+        double result = 0;
+        if(this.startsSum.compareTo(0L) > 0){
+            result = this.startsSum.doubleValue() / this.numberOfVotes;
+        }
+        return result;
     }
 
     public Double addStarts(Long numberOfStarts){

@@ -8,11 +8,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
-import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 @Service
 public class RecipeService {
+
+    private static final Logger LOGGER = Logger.getLogger(RecipeService.class.getName());
 
     @Autowired
     RecipeRepository recipeRepository;

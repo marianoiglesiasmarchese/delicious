@@ -1,27 +1,34 @@
 package com.delicious.model;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.net.URL;
+import java.util.Collection;
 import java.util.List;
-import org.springframework.security.core.userdetails.User;
 
-@Entity
+@Entity(name = "richuser")
 public class RichUser {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
     private String name;
 
     @NotNull
+    @Column(name = "lastname")
     private String lastName;
 
     @NotNull
-    @Column(unique = true)
-    private User user;
+    private URL image;
+
+//    @NotNull
+//    @Column(unique = true)
+//    private User user;
 
     @NotNull
     @Email
@@ -30,6 +37,16 @@ public class RichUser {
 
     @OneToMany
     private List<Recipe> recipes;
+
+    public RichUser(){}
+
+    public RichUser(String name, String lastName, URL image, String email, Collection<? extends GrantedAuthority> authorities){
+        this.name = name;
+        this.lastName = lastName;
+        this.image = image;
+        this.email = email;
+//        this.user = new User(name, "xxx", authorities);
+    }
 
     public void addRecipe(Recipe recipe){
         if (!this.getRecipes().contains(recipe)) {
