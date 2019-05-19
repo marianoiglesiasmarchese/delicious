@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Controller
 public class RecipeController {
+
+    private static final Logger LOGGER = Logger.getLogger(RecipeController.class.getName());
 
     @Autowired
     private RecipeService recipeService;
