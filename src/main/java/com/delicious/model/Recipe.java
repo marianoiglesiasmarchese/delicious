@@ -25,8 +25,12 @@ public class Recipe {
 //    @ElementCollection
     private URL link;
 
+    @NotNull
+    @Column(name = "numberofvotes")
     private Long numberOfVotes;
 
+    @NotNull
+    @Column(name = "startssum")
     private Long startsSum;
 
     public Recipe(){}
