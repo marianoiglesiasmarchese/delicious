@@ -10,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 @RestController
@@ -34,7 +32,7 @@ public class UserController extends CommonComponent {
         HttpStatus status = HttpStatus.OK;
 
         try{
-            List<Recipe> recipes = getCurrentUser().getRecipes();
+            Set<Recipe> recipes = getCurrentUser().getRecipes();
             response.put("recipes",recipes);
         }
         catch(Exception e){
@@ -46,7 +44,7 @@ public class UserController extends CommonComponent {
 
     }
 
-    @PutMapping(value = "/user/recipes/add/{id}")
+    @PutMapping(value = "/user/recipe/{id}/add")
     @ResponseBody
     public ResponseEntity addRecipe(
             @PathVariable Long id
@@ -68,7 +66,7 @@ public class UserController extends CommonComponent {
 
     }
 
-    @PutMapping(value = "/user/recipes/remove/{id}")
+    @PutMapping(value = "/user/recipe/{id}/remove")
     @ResponseBody
     public ResponseEntity removeRecipe(
             @PathVariable Long id

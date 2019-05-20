@@ -7,9 +7,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.net.URL;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity(name = "richuser")
+@Entity(name = "rich_user")
 public class RichUser {
 
     @Id
@@ -20,7 +21,7 @@ public class RichUser {
     private String name;
 
     @NotNull
-    @Column(name = "lastname")
+    @Column(name = "last_name")
     private String lastName;
 
     @NotNull
@@ -35,8 +36,8 @@ public class RichUser {
     @Column(unique = true)
     private String email;
 
-    @OneToMany
-    private List<Recipe> recipes;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Recipe> recipes;
 
     public RichUser(){}
 
@@ -45,6 +46,7 @@ public class RichUser {
         this.lastName = lastName;
         this.image = image;
         this.email = email;
+        this.setRecipes(new HashSet<>());
 //        this.user = new User(name, "xxx", authorities);
     }
 
@@ -84,11 +86,12 @@ public class RichUser {
         this.email = email;
     }
 
-    public List<Recipe> getRecipes() {
+    public Set<Recipe> getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(List<Recipe> recipes) {
+    public void setRecipes(Set<Recipe> recipes) {
         this.recipes = recipes;
     }
+
 }

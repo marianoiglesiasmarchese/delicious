@@ -1,11 +1,13 @@
 package com.delicious.controller;
 
 import com.delicious.component.CommonComponent;
+import com.delicious.dto.Star;
 import com.delicious.model.Recipe;
 import com.delicious.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -40,7 +42,7 @@ public class RecipeController extends CommonComponent {
         return new ResponseEntity(response, status);
     }
 
-    @PutMapping(value = "/recipe/update/{id}")
+    @PutMapping(value = "/recipe/{id}/update")
     @ResponseBody
     public ResponseEntity updateRecipe(
             @RequestBody Recipe recipeChanges,
@@ -52,6 +54,49 @@ public class RecipeController extends CommonComponent {
 
         try{
             Recipe recipe = recipeService.updateRecipe(id, recipeChanges);
+            response.put("recipe", recipe);
+        }
+        catch(Exception e){
+            response.put("error", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity(response, status);
+    }
+
+    @PutMapping(value = "/recipe/{id}/score/increase")
+    @ResponseBody
+    public ResponseEntity updateRecipe(
+            @RequestBody @Validated Star stars,
+            @PathVariable Long id
+    ) {
+
+        Map<String,Object> response = new HashMap<>();
+        HttpStatus status = HttpStatus.OK;
+
+        try{
+            Recipe recipe = recipeService.increaceScore(id, stars.getStars(), getCurrentUser());
+            response.put("recipe", recipe);
+        }
+        catch(Exception e){
+            response.put("error", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity(response, status);
+    }
+
+    @PutMapping(value = "/recipe/{id}/score/decrease")
+    @ResponseBody
+    public ResponseEntity updateRecipe(
+            @PathVariable Long id
+    ) {
+
+        Map<String,Object> response = new HashMap<>();
+        HttpStatus status = HttpStatus.OK;
+
+        try{
+            Recipe recipe = recipeService.decreaceScore(id, getCurrentUser());
             response.put("recipe", recipe);
         }
         catch(Exception e){

@@ -3,6 +3,9 @@ package com.delicious.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Entity
 public class Recipe {
@@ -18,28 +21,32 @@ public class Recipe {
     @NotNull
     private String description;
 
-    @Lob
     @NotNull
-    private byte[] image;
+    private URL image;
 
 //    @ElementCollection
     private URL link;
 
     @NotNull
-    @Column(name = "numberofvotes")
+    @Column(name = "number_of_votes")
     private Long numberOfVotes = 0L;
 
     @NotNull
-    @Column(name = "startssum")
+    @Column(name = "starts_sum")
     private Long startsSum = 0L;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @Column(name = "user_stars_pars")
+    private Set<UserStarsPar> userStarsPars;
 
     public Recipe(){}
 
-    public Recipe(String name, String description, byte[] image, URL link) {
+    public Recipe(String name, String description, URL image, URL link) {
         this.name = name;
         this.description = description;
         this.image = image;
         this.link = link;
+        this.setUserStarsPars(new HashSet<>());
     }
 
     public double getAvgStarts(){
@@ -80,11 +87,11 @@ public class Recipe {
         this.description = description;
     }
 
-    public byte[] getImage() {
+    public URL getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(URL image) {
         this.image = image;
     }
 
@@ -111,4 +118,38 @@ public class Recipe {
     public void setStartsSum(Long startsSum) {
         this.startsSum = startsSum;
     }
+
+    public Set<UserStarsPar> getUserStarsPars() {
+        return userStarsPars;
+    }
+
+    public void setUserStarsPars(Set<UserStarsPar> userStarsPars) {
+        this.userStarsPars = userStarsPars;
+    }
+
+    // TODO implement metods that makes hashset work, we want store only one time each Recipe [hashCode(), equals(), etc]
+
+    public void increaseStars(Integer stars, RichUser user) {
+        UserStarsPar userStarsPar = new UserStarsPar(user, stars);
+        if(!getUserStarsPars().contains(userStarsPar)){
+            numberOfVotes++;
+            startsSum += stars;
+            getUserStarsPars().add(userStarsPar);
+        }
+    }
+
+    public void decreaseStars(RichUser user) {
+        Optional<UserStarsPar> optionalUserStarsPar = getUserStarsPars().stream().filter(userStarsPar -> userStarsPar.getUser().equals(user)).findFirst();
+        Boolean existScoreByUser = optionalUserStarsPar.isPresent();
+        if(existScoreByUser){
+            UserStarsPar userStarsPar =optionalUserStarsPar.get();
+            Integer stars = userStarsPar.getStars();
+            if(numberOfVotes != 0) {
+                numberOfVotes--;
+                startsSum -= stars;
+            }
+        }
+    }
+
+
 }

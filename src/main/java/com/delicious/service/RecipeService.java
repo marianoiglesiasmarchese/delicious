@@ -2,12 +2,13 @@ package com.delicious.service;
 
 import com.delicious.jpa.RecipeRepository;
 import com.delicious.model.Recipe;
+import com.delicious.model.RichUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -23,6 +24,11 @@ public class RecipeService {
 
     public Recipe creteRecipe(Recipe recipe) {
         return recipeRepository.save(recipe);
+    }
+
+    public Recipe getRecipe(Long id){
+        Optional<Recipe> optionalRecipe = recipeRepository.getById(id);
+        return optionalRecipe.isPresent() ? optionalRecipe.get() : null;
     }
 
     public Recipe updateRecipe(Long id, Recipe recipeChanges) {
@@ -47,6 +53,20 @@ public class RecipeService {
         return result;
     }
 
+    @Transactional
+    public Recipe increaceScore(Long id, Integer stars, RichUser user){
+        Recipe recipe = getRecipe(id);
+        recipe.increaseStars(stars, user);
+        return recipeRepository.save(recipe);
+    }
+
+    @Transactional
+    public Recipe decreaceScore(Long id, RichUser user){
+        Recipe recipe = getRecipe(id);
+        recipe.decreaseStars(user);
+        return recipeRepository.save(recipe);
+    }
+
     public Recipe getRandomRecipe() {
         Long numberOfRecipes = recipeRepository.count();
         Random random = new Random();
@@ -64,8 +84,4 @@ public class RecipeService {
         return recipePage.hasContent() ? recipePage.getContent() : null;
     }
 
-    public Recipe getRecipe(Long id){
-        Optional<Recipe> optionalRecipe = recipeRepository.getById(id);
-        return optionalRecipe.isPresent() ? optionalRecipe.get() : null;
-    }
 }
