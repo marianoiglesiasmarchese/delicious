@@ -27,10 +27,6 @@ public class RichUser {
     @NotNull
     private URL image;
 
-//    @NotNull
-//    @Column(unique = true)
-//    private User user;
-
     @NotNull
     @Email
     @Column(unique = true)
@@ -47,7 +43,6 @@ public class RichUser {
         this.image = image;
         this.email = email;
         this.setRecipes(new HashSet<>());
-//        this.user = new User(name, "xxx", authorities);
     }
 
     public void addRecipe(Recipe recipe){
@@ -94,4 +89,19 @@ public class RichUser {
         this.recipes = recipes;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public URL getImage() {
+        return image;
+    }
+
+    public void setImage(URL image) {
+        this.image = image;
+    }
 }

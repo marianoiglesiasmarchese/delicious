@@ -55,7 +55,8 @@ public class UserController extends CommonComponent {
 
         try{
             Recipe recipe = recipeService.getRecipe(id);
-            userService.addRecipe(recipe, getCurrentUser());
+            RichUser user = userService.addRecipe(recipe, getCurrentUser());
+            response.put("user",user);
         }
         catch(Exception e){
             response.put("error", e.getMessage());
@@ -77,7 +78,8 @@ public class UserController extends CommonComponent {
 
         try{
             Recipe recipe = recipeService.getRecipe(id);
-            userService.removeRecipe(recipe, getCurrentUser());
+            RichUser user = userService.removeRecipe(recipe, getCurrentUser());
+            response.put("user",user);
         }
         catch(Exception e){
             response.put("error", e.getMessage());
@@ -108,7 +110,7 @@ public class UserController extends CommonComponent {
 
     }
 
-    @PostMapping(value = "/user/profile/update")
+    @PutMapping(value = "/user/profile/update")
     @ResponseBody
     public ResponseEntity editProfile(
             @RequestBody RichUser userChanges

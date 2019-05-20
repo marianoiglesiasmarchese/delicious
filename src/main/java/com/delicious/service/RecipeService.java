@@ -22,6 +22,7 @@ public class RecipeService {
     @Autowired
     RecipeRepository recipeRepository;
 
+    @Transactional
     public Recipe creteRecipe(Recipe recipe) {
         return recipeRepository.save(recipe);
     }
@@ -31,9 +32,10 @@ public class RecipeService {
         return optionalRecipe.isPresent() ? optionalRecipe.get() : null;
     }
 
+    @Transactional
     public Recipe updateRecipe(Long id, Recipe recipeChanges) {
 
-        Recipe result;
+        Recipe result = null;
         Recipe recipe = getRecipe(id);
 
         if(recipe != null) {
@@ -46,8 +48,6 @@ public class RecipeService {
             if (recipeChanges.getLink() != null)
                 recipe.setLink(recipeChanges.getLink());
             result = recipeRepository.save(recipe);
-        }else{
-            result = recipeRepository.save(recipeChanges);
         }
 
         return result;
