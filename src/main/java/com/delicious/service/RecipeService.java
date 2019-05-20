@@ -56,14 +56,14 @@ public class RecipeService {
     @Transactional
     public Recipe increaceScore(Long id, Integer stars, RichUser user){
         Recipe recipe = getRecipe(id);
-        recipe.increaseStars(stars, user);
+        recipe = recipe.increaseStars(stars, user);
         return recipeRepository.save(recipe);
     }
 
     @Transactional
     public Recipe decreaceScore(Long id, RichUser user){
         Recipe recipe = getRecipe(id);
-        recipe.decreaseStars(user);
+        recipe = recipe.decreaseStars(user);
         return recipeRepository.save(recipe);
     }
 

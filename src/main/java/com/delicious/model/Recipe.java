@@ -1,9 +1,13 @@
 package com.delicious.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.net.URL;
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,7 +41,7 @@ public class Recipe {
 
     @OneToMany(cascade = CascadeType.ALL)
     @Column(name = "user_stars_pars")
-    private Set<UserStarsPar> userStarsPars;
+    private Set<UserStarsPar> userStarsPars = new LinkedHashSet<>();
 
     public Recipe(){}
 
@@ -46,7 +50,6 @@ public class Recipe {
         this.description = description;
         this.image = image;
         this.link = link;
-        this.setUserStarsPars(new HashSet<>());
     }
 
     public double getAvgStarts(){
@@ -127,28 +130,49 @@ public class Recipe {
         this.userStarsPars = userStarsPars;
     }
 
-    // TODO implement metods that makes hashset work, we want store only one time each Recipe [hashCode(), equals(), etc]
+    @Override
+    public int hashCode(){
+        HashCodeBuilder builder = new HashCodeBuilder();
+        builder.append(Arrays.asList(getName(), getDescription(), getImage().toString()));
+        return builder.toHashCode();
+    }
 
-    public void increaseStars(Integer stars, RichUser user) {
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof Recipe)) {
+            return false;
+        }
+        Recipe recipe  = (Recipe) o;
+        EqualsBuilder builder = new EqualsBuilder();
+        builder.append(getName(), recipe.getName());
+        builder.append(getDescription(), recipe.getDescription());
+        builder.append(getImage(), recipe.getImage());
+        return builder.isEquals();
+    }
+
+    public Recipe increaseStars(Integer stars, RichUser user) {
         UserStarsPar userStarsPar = new UserStarsPar(user, stars);
         if(!getUserStarsPars().contains(userStarsPar)){
             numberOfVotes++;
             startsSum += stars;
             getUserStarsPars().add(userStarsPar);
         }
+        return this;
     }
 
-    public void decreaseStars(RichUser user) {
+    public Recipe decreaseStars(RichUser user) {
         Optional<UserStarsPar> optionalUserStarsPar = getUserStarsPars().stream().filter(userStarsPar -> userStarsPar.getUser().equals(user)).findFirst();
         Boolean existScoreByUser = optionalUserStarsPar.isPresent();
         if(existScoreByUser){
-            UserStarsPar userStarsPar =optionalUserStarsPar.get();
+            UserStarsPar userStarsPar = optionalUserStarsPar.get();
             Integer stars = userStarsPar.getStars();
             if(numberOfVotes != 0) {
                 numberOfVotes--;
                 startsSum -= stars;
+                getUserStarsPars().remove(userStarsPar);
             }
         }
+        return this;
     }
 
 

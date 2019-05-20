@@ -1,13 +1,16 @@
 package com.delicious.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity(name = "rich_user")
@@ -33,7 +36,7 @@ public class RichUser {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<Recipe> recipes;
+    private Set<Recipe> recipes = new LinkedHashSet<>();
 
     public RichUser(){}
 
@@ -42,7 +45,6 @@ public class RichUser {
         this.lastName = lastName;
         this.image = image;
         this.email = email;
-        this.setRecipes(new HashSet<>());
     }
 
     public void addRecipe(Recipe recipe){
@@ -104,4 +106,26 @@ public class RichUser {
     public void setImage(URL image) {
         this.image = image;
     }
+
+    @Override
+    public int hashCode(){
+        HashCodeBuilder builder = new HashCodeBuilder();
+        builder.append(Arrays.asList(getName(), getLastName(), getImage().toString(), getEmail()));
+        return builder.toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof RichUser)) {
+            return false;
+        }
+        RichUser richUser = (RichUser) o;
+        EqualsBuilder builder = new EqualsBuilder();
+        builder.append(getName(), richUser.getName());
+        builder.append(getLastName(), richUser.getLastName());
+        builder.append(getImage(), richUser.getImage());
+        builder.append(getEmail(), richUser.getEmail());
+        return builder.isEquals();
+    }
+
 }
