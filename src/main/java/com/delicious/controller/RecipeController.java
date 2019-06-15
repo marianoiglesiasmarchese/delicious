@@ -6,15 +6,11 @@ import com.delicious.model.Recipe;
 import com.delicious.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 
 @Slf4j
 @RestController
@@ -25,97 +21,56 @@ public class RecipeController extends CommonComponent {
 
     @PostMapping(value = "/recipe/new")
     @ResponseBody
-    public ResponseEntity createRecipe(@RequestBody Recipe newRecipe) {
-
-        Map<String, Object> response = new HashMap<>();
-        HttpStatus status = HttpStatus.OK;
+    public ResponseEntity<Recipe> createRecipe(@RequestBody Recipe newRecipe) {
 
         Recipe recipe = recipeService.creteRecipe(newRecipe);
-        response.put("recipe", recipe);
 
-        return new ResponseEntity(response, status);
+        return ResponseEntity.ok().body(recipe);
     }
 
     @PutMapping(value = "/recipe/{id}/update")
     @ResponseBody
-    public ResponseEntity updateRecipe(
-            @RequestBody Recipe recipeChanges,
-            @PathVariable Long id
-    ) {
-
-        Map<String, Object> response = new HashMap<>();
-        HttpStatus status = HttpStatus.OK;
-
+    public ResponseEntity<Recipe> updateRecipe(@RequestBody Recipe recipeChanges, @PathVariable Long id) {
 
         Recipe recipe = recipeService.updateRecipe(id, recipeChanges);
-        response.put("recipe", recipe);
 
-
-        return new ResponseEntity(response, status);
+        return ResponseEntity.ok().body(recipe);
     }
 
     @PutMapping(value = "/recipe/{id}/score/increase")
     @ResponseBody
-    public ResponseEntity updateRecipe(
-            @RequestBody @Validated Star stars,
-            @PathVariable Long id
-    ) {
-
-        Map<String, Object> response = new HashMap<>();
-        HttpStatus status = HttpStatus.OK;
-
+    public ResponseEntity<Recipe> updateRecipe(@RequestBody @Validated Star stars, @PathVariable Long id) {
 
         Recipe recipe = recipeService.increaceScore(id, stars.getStars(), getCurrentUser());
-        response.put("recipe", recipe);
 
-
-        return new ResponseEntity(response, status);
+        return ResponseEntity.ok().body(recipe);
     }
 
     @PutMapping(value = "/recipe/{id}/score/decrease")
     @ResponseBody
-    public ResponseEntity updateRecipe(
-            @PathVariable Long id
-    ) {
-
-        Map<String, Object> response = new HashMap<>();
-        HttpStatus status = HttpStatus.OK;
-
+    public ResponseEntity<Recipe> updateRecipe(@PathVariable Long id) {
 
         Recipe recipe = recipeService.decreaceScore(id, getCurrentUser());
-        response.put("recipe", recipe);
 
-        return new ResponseEntity(response, status);
+        return ResponseEntity.ok().body(recipe);
     }
 
     @GetMapping(value = "/recipe/random")
     @ResponseBody
-    public ResponseEntity randomRecipe() {
-
-        Map<String, Object> response = new HashMap<>();
-        HttpStatus status = HttpStatus.OK;
-
+    public ResponseEntity<Recipe> randomRecipe() {
 
         Recipe recipe = recipeService.getRandomRecipe();
-        response.put("recipe", recipe);
 
-
-        return new ResponseEntity(response, status);
+        return ResponseEntity.ok().body(recipe);
     }
 
     @GetMapping(value = "/recipe/random/set")
     @ResponseBody
-    public ResponseEntity setOfRandomRecipes(
-            @RequestParam(name = "size", required = true) Integer size
-    ) {
-
-        Map<String, Object> response = new HashMap<>();
-        HttpStatus status = HttpStatus.OK;
+    public ResponseEntity<List<Recipe>> setOfRandomRecipes(@RequestParam(name = "size", required = true) Integer size) {
 
         List<Recipe> recipes = recipeService.getSetOfRandomRecipes(size);
-        response.put("recipes", recipes);
 
-        return new ResponseEntity(response, status);
+        return ResponseEntity.ok().body(recipes);
     }
 
 }
