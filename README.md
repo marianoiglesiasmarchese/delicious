@@ -34,9 +34,9 @@ This collections have defined authentication keys and a request every each endpo
 
     - Token Name: delicious.com
     - Grant Type: __Authorization Code__
-    - Callback URL: __http://localhost:9000/loginSuccess__
-    - Auth URL: __http://localhost:9000/oauth2/authorization/google__
-    - Access Token URL: __http://localhost:9000/login/oauth2/code/google__
+    - Callback URL: __http://localhost:8080/login/oauth2/code/google__
+    - Auth URL: __http://localhost:8080/oauth2/authorization/google__
+    - Access Token URL: __https://www.googleapis.com/oauth2/v4/token__
     - Client ID: __774894818075-dbad4ckuftdlfn3vr96kp54he9hv8ea1.apps.googleusercontent.com__
     - Client Secret: __-0NgO7dmS0dnScBo0ZO6XYrh__
     - Scope: e.g. read:org _(default value)_
