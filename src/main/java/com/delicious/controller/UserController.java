@@ -29,17 +29,11 @@ public class UserController extends CommonComponent {
     @ResponseBody
     public ResponseEntity recipes() {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            Set<Recipe> recipes = getCurrentUser().getRecipes();
-            response.put("recipes",recipes);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+        Set<Recipe> recipes = getCurrentUser().getRecipes();
+        response.put("recipes", recipes);
 
         return new ResponseEntity(response, status);
 
@@ -51,18 +45,13 @@ public class UserController extends CommonComponent {
             @PathVariable Long id
     ) {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            Recipe recipe = recipeService.getRecipe(id);
-            RichUser user = userService.addRecipe(recipe, getCurrentUser());
-            response.put("user",user);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+
+        Recipe recipe = recipeService.getRecipe(id);
+        RichUser user = userService.addRecipe(recipe, getCurrentUser());
+        response.put("user", user);
 
         return new ResponseEntity(response, status);
 
@@ -74,18 +63,14 @@ public class UserController extends CommonComponent {
             @PathVariable Long id
     ) {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            Recipe recipe = recipeService.getRecipe(id);
-            RichUser user = userService.removeRecipe(recipe, getCurrentUser());
-            response.put("user",user);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+
+        Recipe recipe = recipeService.getRecipe(id);
+        RichUser user = userService.removeRecipe(recipe, getCurrentUser());
+        response.put("user", user);
+
 
         return new ResponseEntity(response, status);
 
@@ -95,17 +80,13 @@ public class UserController extends CommonComponent {
     @ResponseBody
     public ResponseEntity profile() {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            RichUser richUser = getCurrentUser();
-            response.put("user", richUser);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+
+        RichUser richUser = getCurrentUser();
+        response.put("user", richUser);
+
 
         return new ResponseEntity(response, status);
 
@@ -117,22 +98,17 @@ public class UserController extends CommonComponent {
             @RequestBody RichUser userChanges
     ) {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            RichUser richUser = updateUser(userChanges);
-            response.put("user", richUser);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+
+        RichUser richUser = updateUser(userChanges);
+        response.put("user", richUser);
+
 
         return new ResponseEntity(response, status);
 
     }
-
 
 
 }

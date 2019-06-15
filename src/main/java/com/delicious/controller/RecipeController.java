@@ -27,17 +27,11 @@ public class RecipeController extends CommonComponent {
     @ResponseBody
     public ResponseEntity createRecipe(@RequestBody Recipe newRecipe) {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            Recipe recipe = recipeService.creteRecipe(newRecipe);
-            response.put("recipe", recipe);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+        Recipe recipe = recipeService.creteRecipe(newRecipe);
+        response.put("recipe", recipe);
 
         return new ResponseEntity(response, status);
     }
@@ -49,17 +43,13 @@ public class RecipeController extends CommonComponent {
             @PathVariable Long id
     ) {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            Recipe recipe = recipeService.updateRecipe(id, recipeChanges);
-            response.put("recipe", recipe);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+
+        Recipe recipe = recipeService.updateRecipe(id, recipeChanges);
+        response.put("recipe", recipe);
+
 
         return new ResponseEntity(response, status);
     }
@@ -71,17 +61,13 @@ public class RecipeController extends CommonComponent {
             @PathVariable Long id
     ) {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            Recipe recipe = recipeService.increaceScore(id, stars.getStars(), getCurrentUser());
-            response.put("recipe", recipe);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+
+        Recipe recipe = recipeService.increaceScore(id, stars.getStars(), getCurrentUser());
+        response.put("recipe", recipe);
+
 
         return new ResponseEntity(response, status);
     }
@@ -92,17 +78,12 @@ public class RecipeController extends CommonComponent {
             @PathVariable Long id
     ) {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            Recipe recipe = recipeService.decreaceScore(id, getCurrentUser());
-            response.put("recipe", recipe);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+
+        Recipe recipe = recipeService.decreaceScore(id, getCurrentUser());
+        response.put("recipe", recipe);
 
         return new ResponseEntity(response, status);
     }
@@ -111,17 +92,13 @@ public class RecipeController extends CommonComponent {
     @ResponseBody
     public ResponseEntity randomRecipe() {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            Recipe recipe = recipeService.getRandomRecipe();
-            response.put("recipe", recipe);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+
+        Recipe recipe = recipeService.getRandomRecipe();
+        response.put("recipe", recipe);
+
 
         return new ResponseEntity(response, status);
     }
@@ -129,20 +106,14 @@ public class RecipeController extends CommonComponent {
     @GetMapping(value = "/recipe/random/set")
     @ResponseBody
     public ResponseEntity setOfRandomRecipes(
-            @RequestParam(name="size", required=true) Integer size
+            @RequestParam(name = "size", required = true) Integer size
     ) {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
 
-        try{
-            List<Recipe> recipes = recipeService.getSetOfRandomRecipes(size);
-            response.put("recipes", recipes);
-        }
-        catch(Exception e){
-            response.put("error", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+        List<Recipe> recipes = recipeService.getSetOfRandomRecipes(size);
+        response.put("recipes", recipes);
 
         return new ResponseEntity(response, status);
     }
