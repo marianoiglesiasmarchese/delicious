@@ -3,16 +3,14 @@ package com.delicious.service;
 import com.delicious.jpa.UserRepository;
 import com.delicious.model.Recipe;
 import com.delicious.model.RichUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.logging.Logger;
-
+@Slf4j
 @Service
 public class UserService {
-
-    private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
     @Autowired
     private UserRepository userRepository;

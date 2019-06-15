@@ -4,6 +4,7 @@ import com.delicious.component.CommonComponent;
 import com.delicious.dto.Star;
 import com.delicious.model.Recipe;
 import com.delicious.service.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+@Slf4j
 @RestController
 public class RecipeController extends CommonComponent {
-
-    private static final Logger LOGGER = Logger.getLogger(RecipeController.class.getName());
 
     @Autowired
     private RecipeService recipeService;

@@ -2,6 +2,7 @@ package com.delicious.service;
 
 import com.delicious.jpa.UserRepository;
 import com.delicious.model.RichUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -10,12 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.logging.Logger;
 
+@Slf4j
 @Service
 public class AuthenticationService {
-
-    private static final Logger LOGGER = Logger.getLogger(AuthenticationService.class.getName());
 
     @Autowired
     private UserRepository userRepository;
@@ -28,7 +27,7 @@ public class AuthenticationService {
     @Transactional
     public RichUser createUser(String name, String lastname, URL image, String email, Collection<? extends GrantedAuthority> authorities){
         RichUser response;
-        RichUser user = new RichUser(name, lastname, image, email, authorities);
+        RichUser user = RichUser.builder().name(name).lastName(lastname).image(image).email(email).build();
         response = this.userRepository.save(user);
         return response;
     }

@@ -1,17 +1,19 @@
 package com.delicious.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
 @Entity
+@Getter @Setter @EqualsAndHashCode @Builder
 public class Recipe {
 
     @Id
@@ -43,15 +45,6 @@ public class Recipe {
     @Column(name = "user_stars_pars")
     private Set<UserStarsPar> userStarsPars = new LinkedHashSet<>();
 
-    public Recipe(){}
-
-    public Recipe(String name, String description, URL image, URL link) {
-        this.name = name;
-        this.description = description;
-        this.image = image;
-        this.link = link;
-    }
-
     public double getAvgStarts(){
         double result = 0;
         if(this.startsSum.compareTo(0L) > 0){
@@ -66,92 +59,8 @@ public class Recipe {
         return this.startsSum.doubleValue() / this.numberOfVotes;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public URL getImage() {
-        return image;
-    }
-
-    public void setImage(URL image) {
-        this.image = image;
-    }
-
-    public URL getLink() {
-        return link;
-    }
-
-    public void setLink(URL link) {
-        this.link = link;
-    }
-
-    public Long getNumberOfVotes() {
-        return numberOfVotes;
-    }
-
-    public void setNumberOfVotes(Long numberOfVotes) {
-        this.numberOfVotes = numberOfVotes;
-    }
-
-    public Long getStartsSum() {
-        return startsSum;
-    }
-
-    public void setStartsSum(Long startsSum) {
-        this.startsSum = startsSum;
-    }
-
-    public Set<UserStarsPar> getUserStarsPars() {
-        return userStarsPars;
-    }
-
-    public void setUserStarsPars(Set<UserStarsPar> userStarsPars) {
-        this.userStarsPars = userStarsPars;
-    }
-
-    @Override
-    public int hashCode(){
-        HashCodeBuilder builder = new HashCodeBuilder();
-        builder.append(Arrays.asList(getName(), getDescription(), getImage().toString()));
-        return builder.toHashCode();
-    }
-
-    @Override
-    public boolean equals(Object o){
-        if (!(o instanceof Recipe)) {
-            return false;
-        }
-        Recipe recipe  = (Recipe) o;
-        EqualsBuilder builder = new EqualsBuilder();
-        builder.append(getName(), recipe.getName());
-        builder.append(getDescription(), recipe.getDescription());
-        builder.append(getImage(), recipe.getImage());
-        return builder.isEquals();
-    }
-
     public Recipe increaseStars(Integer stars, RichUser user) {
-        UserStarsPar userStarsPar = new UserStarsPar(user, stars);
+        UserStarsPar userStarsPar = UserStarsPar.builder().user(user).stars(stars).build();
         if(!getUserStarsPars().contains(userStarsPar)){
             numberOfVotes++;
             startsSum += stars;
@@ -174,6 +83,5 @@ public class Recipe {
         }
         return this;
     }
-
 
 }

@@ -3,6 +3,7 @@ package com.delicious.service;
 import com.delicious.jpa.RecipeRepository;
 import com.delicious.model.Recipe;
 import com.delicious.model.RichUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,12 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.logging.Logger;
 
+@Slf4j
 @Service
 public class RecipeService {
-
-    private static final Logger LOGGER = Logger.getLogger(RecipeService.class.getName());
 
     @Autowired
     RecipeRepository recipeRepository;

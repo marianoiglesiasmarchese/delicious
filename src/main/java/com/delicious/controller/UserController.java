@@ -5,18 +5,19 @@ import com.delicious.model.Recipe;
 import com.delicious.model.RichUser;
 import com.delicious.service.RecipeService;
 import com.delicious.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
+@Slf4j
 @RestController
 public class UserController extends CommonComponent {
-
-    private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
 
     @Autowired
     private UserService userService;
