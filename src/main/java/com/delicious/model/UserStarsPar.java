@@ -13,6 +13,7 @@ public class UserStarsPar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @EqualsAndHashCode.Exclude
     private Long id;
 
     @NotNull
@@ -22,6 +23,7 @@ public class UserStarsPar {
 
     @NotNull
     @Range(min = 1, max = 5)
+    @EqualsAndHashCode.Exclude
     private Integer stars;
 
 }
