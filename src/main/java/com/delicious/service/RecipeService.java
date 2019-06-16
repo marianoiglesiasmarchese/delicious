@@ -1,5 +1,6 @@
 package com.delicious.service;
 
+import com.delicious.exception.UserHasNotThisRecipeException;
 import com.delicious.jpa.RecipeRepository;
 import com.delicious.model.Recipe;
 import com.delicious.model.RichUser;
@@ -51,17 +52,39 @@ public class RecipeService {
     }
 
     @Transactional
-    public Recipe increaceScore(Long id, Integer stars, RichUser user){
-        Recipe recipe = getRecipe(id);
-        recipe = recipe.increaseStars(stars, user);
-        return recipeRepository.save(recipe);
+    public Recipe increaseScore(Long id, Integer stars, RichUser user){
+
+        Recipe recipeResponse = null;
+
+        final Recipe incomingRecipe = getRecipe(id);
+
+        Optional<Recipe> optionalRecipe = user.getRecipes().stream().filter(userRecipe -> incomingRecipe.equals(userRecipe)).findFirst();
+        if(optionalRecipe.isPresent()){
+            recipeResponse = optionalRecipe.get().increaseStars(stars, user);
+            recipeResponse = recipeRepository.save(recipeResponse);
+        }else{
+            throw new UserHasNotThisRecipeException();
+        }
+
+        return recipeResponse;
     }
 
     @Transactional
-    public Recipe decreaceScore(Long id, RichUser user){
-        Recipe recipe = getRecipe(id);
-        recipe = recipe.decreaseStars(user);
-        return recipeRepository.save(recipe);
+    public Recipe decreaseScore(Long id, RichUser user){
+
+        Recipe recipeResponse = null;
+
+        final Recipe incomingRecipe = getRecipe(id);
+
+        Optional<Recipe> optionalRecipe = user.getRecipes().stream().filter(userRecipe -> incomingRecipe.equals(userRecipe)).findFirst();
+        if(optionalRecipe.isPresent()){
+            recipeResponse = optionalRecipe.get().decreaseStars(user);
+            recipeResponse = recipeRepository.save(recipeResponse);
+        }else{
+            throw new UserHasNotThisRecipeException();
+        }
+
+        return recipeResponse;
     }
 
     public Recipe getRandomRecipe() {

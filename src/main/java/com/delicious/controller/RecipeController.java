@@ -45,7 +45,7 @@ public class RecipeController extends CommonComponent {
     @ResponseBody
     public ResponseEntity<Recipe> updateRecipe(@RequestBody @Validated Star stars, @PathVariable Long id) {
 
-        Recipe recipe = recipeService.increaceScore(id, stars.getStars(), getCurrentUser());
+        Recipe recipe = recipeService.increaseScore(id, stars.getStars(), getCurrentUser());
 
         log.debug("Recipe: " + recipe.toString() + " - increase score to: " + recipe.getAvgStarts());
 
@@ -56,7 +56,7 @@ public class RecipeController extends CommonComponent {
     @ResponseBody
     public ResponseEntity<Recipe> updateRecipe(@PathVariable Long id) {
 
-        Recipe recipe = recipeService.decreaceScore(id, getCurrentUser());
+        Recipe recipe = recipeService.decreaseScore(id, getCurrentUser());
 
         log.debug("Recipe: " + recipe.toString() + " - decrease score to: " + recipe.getAvgStarts());
 
