@@ -40,6 +40,7 @@ public class Recipe {
 
     @OneToMany(cascade = CascadeType.ALL)
     @Column(name = "user_stars_pars")
+    @Builder.Default
     private Set<UserStarsPar> userStarsPars = new LinkedHashSet<>();
 
     public double getAvgStarts(){

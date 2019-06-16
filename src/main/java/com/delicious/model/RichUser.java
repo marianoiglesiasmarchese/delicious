@@ -33,6 +33,7 @@ public class RichUser {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @Builder.Default
     private Set<Recipe> recipes = new LinkedHashSet<>();
 
     public void addRecipe(Recipe recipe){
