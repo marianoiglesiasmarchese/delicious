@@ -43,7 +43,7 @@ This collections have defined authentication keys and a request every each endpo
     - State: State _(default value)_
     - Client Authentication: __Send as Basic Auth header__
 
-It should raise a Google OAuth login, complete with your account data. After this process you could see this Postman message __"Could not complete OAuth 2.0 login. Check Postman Console for more details."__, but don't worry, because your session key is alredy in your Postman cookies.
+After this process your session key is already in your Postman cookies.
 
 __Once you have OAuth2 token in your environment, you can use it for all the request included in the collection.__
 
