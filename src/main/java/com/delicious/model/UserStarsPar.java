@@ -17,6 +17,7 @@ public class UserStarsPar {
 
     @NotNull
     @OneToOne
+    @JsonIgnore
     private RichUser user;
 
     @NotNull
