@@ -1,9 +1,6 @@
 package com.delicious.model;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,7 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity(name = "rich_user")
-@Getter @Setter @EqualsAndHashCode @Builder
+@Builder @NoArgsConstructor @AllArgsConstructor @Getter @Setter @EqualsAndHashCode
 public class RichUser {
 
     @Id

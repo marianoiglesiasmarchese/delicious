@@ -1,9 +1,6 @@
 package com.delicious.model;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Entity
-@Getter @Setter @EqualsAndHashCode @Builder
+@Builder @NoArgsConstructor @AllArgsConstructor @Getter @Setter @EqualsAndHashCode
 public class Recipe {
 
     @Id

@@ -1,19 +1,14 @@
 package com.delicious.model;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
 
 @Entity(name = "user_stars_par")
-@Getter @Setter @EqualsAndHashCode @Builder
+@Builder @NoArgsConstructor @AllArgsConstructor @Getter @Setter @EqualsAndHashCode
 public class UserStarsPar {
 
     @Id
