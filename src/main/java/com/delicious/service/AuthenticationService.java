@@ -48,8 +48,8 @@ public class AuthenticationService {
                 user.setName(userChanges.getName());
             if (userChanges.getLastName() != null)
                 user.setLastName(userChanges.getLastName());
-            if (userChanges.getEmail() != null)
-                user.setEmail(userChanges.getEmail());
+//            if (userChanges.getEmail() != null) // no updetear el email porque sino se pierde la unicidad y otras partes de la aplicacion pueden empezar a andar mal
+//                user.setEmail(userChanges.getEmail());
             if (userChanges.getImage() != null)
                 user.setImage(userChanges.getImage());
             result = userRepository.save(user);
