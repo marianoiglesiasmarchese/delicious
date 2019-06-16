@@ -2,7 +2,6 @@ package com.delicious.service;
 
 import com.delicious.jpa.UserRepository;
 import com.delicious.model.RichUser;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Optional;
 
-@Slf4j
 @Service
 public class AuthenticationService {
 
@@ -48,8 +46,6 @@ public class AuthenticationService {
                 user.setName(userChanges.getName());
             if (userChanges.getLastName() != null)
                 user.setLastName(userChanges.getLastName());
-//            if (userChanges.getEmail() != null) // no updetear el email porque sino se pierde la unicidad y otras partes de la aplicacion pueden empezar a andar mal
-//                user.setEmail(userChanges.getEmail());
             if (userChanges.getImage() != null)
                 user.setImage(userChanges.getImage());
             result = userRepository.save(user);
@@ -57,6 +53,5 @@ public class AuthenticationService {
 
         return result;
     }
-
 
 }

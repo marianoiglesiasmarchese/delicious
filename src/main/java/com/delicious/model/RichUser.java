@@ -27,6 +27,10 @@ public class RichUser {
     @NotNull
     private URL image;
 
+    /**
+     * @Important: do not update this attribute because is used to handle user uniqueness.
+     *  changing this attribute could cause strange behavior in other parts of the code.
+     */
     @NotNull
     @Email
     @Column(unique = true)

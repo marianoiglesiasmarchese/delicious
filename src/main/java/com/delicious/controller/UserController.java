@@ -28,6 +28,8 @@ public class UserController extends CommonComponent {
 
         Set<Recipe> recipes = getCurrentUser().getRecipes();
 
+        log.debug("User: " + getCurrentUser().getEmail() + " - recipes: " + recipes);
+
         return ResponseEntity.ok().body(recipes);
     }
 
@@ -37,6 +39,8 @@ public class UserController extends CommonComponent {
 
         Recipe recipe = recipeService.getRecipe(id);
         RichUser user = userService.addRecipe(recipe, getCurrentUser());
+
+        log.debug("User: " + getCurrentUser().getEmail() + " - recipe added: " + recipe);
 
         return  ResponseEntity.ok().body(user);
     }
@@ -48,6 +52,8 @@ public class UserController extends CommonComponent {
         Recipe recipe = recipeService.getRecipe(id);
         RichUser user = userService.removeRecipe(recipe, getCurrentUser());
 
+        log.debug("User: " + getCurrentUser().getEmail() + " - recipe removed: " + recipe);
+
         return ResponseEntity.ok().body(user);
     }
 
@@ -57,6 +63,8 @@ public class UserController extends CommonComponent {
 
         RichUser richUser = getCurrentUser();
 
+        log.debug("User profile: " + getCurrentUser());
+
         return ResponseEntity.ok().body(richUser);
     }
 
@@ -65,6 +73,8 @@ public class UserController extends CommonComponent {
     public ResponseEntity<RichUser> editProfile(@RequestBody RichUser userChanges) {
 
         RichUser richUser = updateUser(userChanges);
+
+        log.debug("User update: " + getCurrentUser());
 
         return ResponseEntity.ok().body(richUser);
     }

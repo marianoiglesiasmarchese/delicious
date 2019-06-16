@@ -1,7 +1,8 @@
 package com.delicious.component;
 
+import com.delicious.model.RichUser;
 import com.delicious.service.AuthenticationService;
-import com.delicious.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -17,12 +18,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
+@Slf4j
 @Component
 public class AuthenticationSuccess implements AuthenticationSuccessHandler {
 
-    private static final Logger LOGGER = Logger.getLogger(AuthenticationSuccess.class.getName());
+    private static final String BASE_MESSAGE = "OAuth2 - Authentication successful";
 
     @Autowired
     private AuthenticationService authenticationService;
@@ -32,6 +33,8 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler {
 
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
+        log.info(BASE_MESSAGE);
+
         this.checkIfAlreadyExist(authentication);
 
         // TODO here we should redirect to specific view for each user
@@ -40,6 +43,8 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler {
         } else{
             response.sendRedirect("/user/profile");
         }
+
+        log.debug(BASE_MESSAGE + " - " + roles + " signed in...");
 
     }
 
@@ -55,9 +60,11 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler {
 
         Boolean alreadyRegistered = authenticationService.contains((String) email);
         if(!alreadyRegistered){
+            log.info(BASE_MESSAGE + " - new user, signing up...");
             String lastname = "";
             URL pictureURL = new URL((String) picture);
-            authenticationService.createUser((String) name, lastname, pictureURL, (String) email, authentication.getAuthorities());
+            RichUser richUser = authenticationService.createUser((String) name, lastname, pictureURL, (String) email, authentication.getAuthorities());
+            log.debug(BASE_MESSAGE + " - user created: " + richUser);
         }
     }
 

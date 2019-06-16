@@ -25,6 +25,8 @@ public class RecipeController extends CommonComponent {
 
         Recipe recipe = recipeService.creteRecipe(newRecipe);
 
+        log.debug("Recipe created: " + recipe.toString());
+
         return ResponseEntity.ok().body(recipe);
     }
 
@@ -33,6 +35,8 @@ public class RecipeController extends CommonComponent {
     public ResponseEntity<Recipe> updateRecipe(@RequestBody Recipe recipeChanges, @PathVariable Long id) {
 
         Recipe recipe = recipeService.updateRecipe(id, recipeChanges);
+
+        log.debug("Recipe updated: " + recipe.toString());
 
         return ResponseEntity.ok().body(recipe);
     }
@@ -43,6 +47,8 @@ public class RecipeController extends CommonComponent {
 
         Recipe recipe = recipeService.increaceScore(id, stars.getStars(), getCurrentUser());
 
+        log.debug("Recipe: " + recipe.toString() + " - increase score to: " + recipe.getAvgStarts());
+
         return ResponseEntity.ok().body(recipe);
     }
 
@@ -51,6 +57,8 @@ public class RecipeController extends CommonComponent {
     public ResponseEntity<Recipe> updateRecipe(@PathVariable Long id) {
 
         Recipe recipe = recipeService.decreaceScore(id, getCurrentUser());
+
+        log.debug("Recipe: " + recipe.toString() + " - decrease score to: " + recipe.getAvgStarts());
 
         return ResponseEntity.ok().body(recipe);
     }
@@ -61,6 +69,8 @@ public class RecipeController extends CommonComponent {
 
         Recipe recipe = recipeService.getRandomRecipe();
 
+        log.debug("Random recipe: " + recipe.toString());
+
         return ResponseEntity.ok().body(recipe);
     }
 
@@ -69,6 +79,8 @@ public class RecipeController extends CommonComponent {
     public ResponseEntity<List<Recipe>> setOfRandomRecipes(@RequestParam(name = "size", required = true) Integer size) {
 
         List<Recipe> recipes = recipeService.getSetOfRandomRecipes(size);
+
+        log.debug("Random recipes: " + recipes.toString());
 
         return ResponseEntity.ok().body(recipes);
     }

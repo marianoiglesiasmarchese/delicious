@@ -2,7 +2,6 @@ package com.delicious.component;
 
 import com.delicious.model.RichUser;
 import com.delicious.service.AuthenticationService;
-import com.delicious.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
