@@ -32,15 +32,18 @@ public class Recipe {
 
     @NotNull
     @Column(name = "number_of_votes")
+    @EqualsAndHashCode.Exclude
     private Long numberOfVotes = 0L;
 
     @NotNull
     @Column(name = "starts_sum")
+    @EqualsAndHashCode.Exclude
     private Long startsSum = 0L;
 
     @OneToMany(cascade = CascadeType.ALL)
     @Column(name = "user_stars_pars")
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private Set<UserStarsPar> userStarsPars = new LinkedHashSet<>();
 
     public double getAvgStarts(){

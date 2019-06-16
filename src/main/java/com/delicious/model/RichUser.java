@@ -34,6 +34,7 @@ public class RichUser {
 
     @OneToMany(cascade = CascadeType.ALL)
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private Set<Recipe> recipes = new LinkedHashSet<>();
 
     public void addRecipe(Recipe recipe){
